@@ -1,8 +1,8 @@
 package ejbs;
 
 import beans.UserBean;
-
-import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.ejb.Remove;
 import javax.ejb.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -15,12 +15,13 @@ public class UserEJB implements UserEJBLocal {
 
     private static List<UserBean> userBeans;
 
-    static  {
+    static {
         userBeans = new ArrayList<UserBean>();
         userBeans.add(0 , new UserBean(0, "davide.stefanelli@live.it", "password"));
         userBeans.add(1, new UserBean(1, "stefanelli.davide@gmail.com", "password"));
     }
 
+    @Remove
     @Path("getall")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
@@ -41,6 +42,5 @@ public class UserEJB implements UserEJBLocal {
     public void addUser(UserBean userBean) {
         userBeans.add(userBean);
     }
-
 
 }
